@@ -14,7 +14,31 @@ import org.json.JSONObject;
 public class NotificationNotDisplayingExtender extends NotificationExtenderService {
     @Override
     protected boolean onNotificationProcessing(OSNotificationReceivedResult receivedResult) {
+        String code,taskId;
+
         JSONObject additionalData = receivedResult.payload.additionalData;
+
+        // This part of code is added to send notification to main app.
+        // Main app is responsible to call ReactServiceDispatcher and pass notification data.
+        //As a result. notification data can be handled at react side when the app is closed.
+
+        try {
+            code = additionalData.getString("code");
+        } catch (JSONException e) {
+            code ="";
+        }
+        try {
+            taskId = additionalData.get("task_id").toString();
+        } catch (JSONException e) {
+            taskId="";
+        }
+        Intent intent = new Intent(RNOneSignal.ACTION_NOTIFICATION_RECEIVED);
+        intent.putExtra("title",receivedResult.payload.title);
+        intent.putExtra("body",receivedResult.payload.body);
+        intent.putExtra("code",code);
+        intent.putExtra("task_id",taskId);
+        sendBroadcast(intent);
+
         boolean hidden = false;
         try {
             if (additionalData.has(RNOneSignal.HIDDEN_MESSAGE_KEY)) {

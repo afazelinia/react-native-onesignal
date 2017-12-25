@@ -36,6 +36,7 @@ public class RNOneSignal extends ReactContextBaseJavaModule implements Lifecycle
     public static final String NOTIFICATION_OPENED_INTENT_FILTER = "GTNotificationOpened";
     public static final String NOTIFICATION_RECEIVED_INTENT_FILTER = "GTNotificationReceived";
     public static final String HIDDEN_MESSAGE_KEY = "hidden";
+	public static final String ACTION_NOTIFICATION_RECEIVED = "com.OneSignal.ACTION_NOTIFICATION_RECEIVED";
 
     private ReactContext mReactContext;
     private boolean oneSignalInitDone;

@@ -1,5 +1,6 @@
 package com.geektime.rnonesignalandroid;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.onesignal.NotificationExtenderService;

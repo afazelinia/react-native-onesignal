@@ -15,7 +15,7 @@ import org.json.JSONObject;
 public class NotificationNotDisplayingExtender extends NotificationExtenderService {
     @Override
     protected boolean onNotificationProcessing(OSNotificationReceivedResult receivedResult) {
-        String code,taskId;
+        String code,taskId, deletedTaskTitle;
 
         JSONObject additionalData = receivedResult.payload.additionalData;
 
@@ -33,11 +33,17 @@ public class NotificationNotDisplayingExtender extends NotificationExtenderServi
         } catch (JSONException e) {
             taskId="";
         }
+        try {
+            deletedTaskTitle = additionalData.get("task_title").toString();
+        } catch (JSONException e) {
+            deletedTaskTitle = "";
+        }
         Intent intent = new Intent(RNOneSignal.ACTION_NOTIFICATION_RECEIVED);
         intent.putExtra("title",receivedResult.payload.title);
         intent.putExtra("body",receivedResult.payload.body);
         intent.putExtra("code",code);
         intent.putExtra("task_id",taskId);
+        intent.putExtra("deleted_task_title", deletedTaskTitle);
         sendBroadcast(intent);
 
         boolean hidden = false;
